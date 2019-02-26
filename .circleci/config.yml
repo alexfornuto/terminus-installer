@@ -6,3 +6,4 @@ jobs:
     steps:
       - checkout
       - run: php installer.php
+      - run: terminus --version
