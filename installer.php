@@ -38,13 +38,13 @@ function downloadTerminus($installdir, $package)
     echo("\nDownloading Terminus " . $version . " from " . $url . " to /tmp \n");
     $couldDownload = file_put_contents("/tmp/" . $package . ".phar", file_get_contents($url));
     echo("Moving to " . $installdir . "...\n");
-    if(!rename("/tmp/" . $package . ".phar", $installdir . "/" . $package . ".phar")){
+    if(!rename("/tmp/" . $package . ".phar", $installdir . "/" . $package)){
         echo("\n" . $installdir . " requires admin rights to write to...\n");
-        exec("sudo mv /tmp/" . $package . ".phar " . $installdir . "/" . $package . ".phar");
+        exec("sudo mv /tmp/" . $package . ".phar " . $installdir . "/" . $package);
         echo("\n");
     }
     // Return true if successful
-    $couldMove = exec("ls " . $installdir . "/" . $package . ".phar", $output, $couldMove);
+    $couldMove = exec("ls " . $installdir . "/" . $package, $output, $couldMove);
     return $couldMove;
 }
 
@@ -84,7 +84,7 @@ if (downloadTerminus($installdir, $package)) {
 
 // Make Terminus executable
 echo("Making Terminus executable... ");
-chmod($installdir . "/" . $package . ".phar", 0755)
+chmod($installdir . "/" . $package, 0755)
 or exit("\nUnable to set Terminus as executable.\n");
 echo("Done.\n\n");
 
