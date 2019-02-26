@@ -4,7 +4,7 @@
 Created by Alex Fornuto - alex@fornuto.com
 */
 
-// Define environemnt variables.
+// Define environment variables.
 $pathUpdated = false;
 $paths = explode(":", getenv('PATH'));             // Creates an array with all paths in $PATH
 $installdir = ("/usr/local/bin");                  // Creates a string with the desired installation path
@@ -14,8 +14,7 @@ $rcfiles = array(                                  // Array of common .rc files 
   ".config/fish/config.fish",
   ".profile",
 );
-$package = "updatinate";                           // This _should_ be "terminus", but can be changed to test
-                                                   // the script with other packages already configured.
+$package = "terminus";
 
 // Function to download Terminus executable file from GitHub to /tmp/ then move it to $installdir
 // prompts for sudo if required.
@@ -67,7 +66,7 @@ function checkpath($paths, $installdir)
     return in_array($installdir, $paths);
 }
 
-// BEGIN ACUTAL DOING OF THINGS!
+// BEGIN ACTUAL DOING OF THINGS!
 
 //Makes ~/.terminus/bin if it doesn't exist.
 if (!file_exists($installdir)) {
