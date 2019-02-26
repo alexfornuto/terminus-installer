@@ -1,5 +1,5 @@
 # Terminus Installer
-This is an **unoficial third party** script to help new users install [Terminus](https://github.com/pantheon-systems/terminus) to a standard location, and add that location to `$PATH`, so it can be called from any directory.
+This is an **unoficial third party** script to help new users install [Terminus](https://github.com/pantheon-systems/terminus) to a standard location, and add that location to `$PATH` so it can be called from any directory.
 
 ## Usage
 This script is written in PHP. Using it is as easy as downloading it and passing it to `php`. The following one-liner will do both:
