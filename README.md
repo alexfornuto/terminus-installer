@@ -5,7 +5,7 @@ This is an **unoficial third party** script to help new users install [Terminus]
 This script is written in PHP. Using it is as easy as downloading it and passing it to `php`. The following one-liner will do both:
 
 ```bash
-curl -O https://github.com/pantheon-systems/alexfornuto/blob/master/installer.php && php installer.php
+curl -O https://raw.githubusercontent.com/alexfornuto/terminus-installer/master/installer.php && php installer.php
 ```
 
 ## Disclaimer
