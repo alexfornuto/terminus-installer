@@ -41,10 +41,10 @@ function downloadTerminus($installdir, $package)
     if(!rename("/tmp/" . $package . ".phar", $installdir . "/" . $package . ".phar")){
         echo("\n" . $installdir . " requires admin rights to write to...\n");
         exec("sudo mv /tmp/" . $package . ".phar " . $installdir . "/" . $package . ".phar");
-        $couldMove = exec("ls " . $installdir . "/" . $package . ".phar", $output, $couldMove);
         echo("\n");
     }
     // Return true if successful
+    $couldMove = exec("ls " . $installdir . "/" . $package . ".phar", $output, $couldMove);
     return $couldMove;
 }
 
