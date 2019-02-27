@@ -1,3 +1,5 @@
+[![CircleCI](https://circleci.com/gh/alexfornuto/terminus-installer/tree/master.svg?style=svg)](https://circleci.com/gh/alexfornuto/terminus-installer/tree/master)
+
 # Terminus Installer
 This is an **unoficial third party** script to help new users install [Terminus](https://github.com/pantheon-systems/terminus) to a standard location, and add that location to `$PATH` so it can be called from any directory.
 
