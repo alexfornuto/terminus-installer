@@ -3,6 +3,12 @@
 # Terminus Installer
 This is an **unoficial third party** script to help new users install [Terminus](https://github.com/pantheon-systems/terminus) to a standard location, and add that location to `$PATH` so it can be called from any directory.
 
+## Requirements
+
+As Terminus is for macOS/Linux only, so is this installation script.
+
+Before using this script, you should make sure you have all of the [dependencies required](https://github.com/pantheon-systems/terminus#required) for Terminus.
+
 ## Usage
 This script is written in PHP. Using it is as easy as downloading it and passing it to `php`. The following one-liner will do both:
 
