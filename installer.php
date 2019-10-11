@@ -60,6 +60,28 @@ function ammendPath($rcfile, $installdir, &$pathUpdated)
     return $pathUpdated;
 }
 
+function checkCompletion($rcfile)
+{
+  if( strpos(file_get_contents(getenv('HOME') . "/$rcfile"), "eval \"$(terminus autocomplete)\"") !== false)
+  {
+    return false;
+  }
+  else {
+    return true;
+  }
+}
+
+function enableAutoComplete($rcfile)
+{
+    $evalCompletion = file_put_contents(getenv('HOME') . "/$rcfile", "\n# Enable Terminus autocomplete\neval \"$(terminus autocomplete)\"", FILE_APPEND | LOCK_EX);
+    if (!$evalCompletion) {
+        throw new Exception($rcfile . " found, but unable to write to it.");
+    }
+
+    return $evalCompletion;
+
+}
+
 // Function to determine if ~/.terminus/bin is already in $PATH
 function checkpath($paths, $installdir)
 {
@@ -86,7 +108,7 @@ if (downloadTerminus($installdir, $package)) {
 echo("Making Terminus executable... ");
 chmod($installdir . "/" . $package, 0755)
 or exit("\nUnable to set Terminus as executable.\n");
-echo("Done.\n\n");
+echo("Done.\n");
 
 // If $installdir isn't in path, add it.
 if (checkpath($paths, $installdir) === false) {
@@ -103,4 +125,18 @@ if (checkpath($paths, $installdir) === false) {
         " to your PATH, or execute Terminus from the full path.\n\n");
     }
 }
+
+// Check for autocompletion in rcfile and amend if not
+foreach ($rcfiles as $rcfile) {
+  if (file_exists(getenv('HOME') . "/$rcfile") && is_writable(getenv('HOME') . "/$rcfile")){
+    if (checkCompletion($rcfile) === true) {
+      enableAutoComplete($rcfile);
+      echo("Added Autocompletion to " . $rcfile . "\n");
+    }
+    else {
+      echo("Found autocompletion setting for Terminus in " . "/$rcfile" . "\n" );
+    }
+  }
+}
+
 exit();
