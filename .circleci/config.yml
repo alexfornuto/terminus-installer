@@ -3,7 +3,14 @@ jobs:
   build:
     docker:
       - image: circleci/php:5.6.32-cli-jessie
+    working_directory: ~/build
     steps:
       - checkout
+      - run: sudo apt install -y xdotool
       - run: php installer.php
       - run: terminus --version
+      - run:
+          name: Test Autocomplete
+          command: |
+            cd ~/build
+            ./tests/completion.sh 
