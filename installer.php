@@ -117,6 +117,7 @@ if (checkpath($paths, $installdir) === false) {
             ammendpath($rcfile, $installdir, $pathUpdated);
             echo("Found " . $rcfile . " and added " . $installdir .
             " to your \$PATH.\nIn order to run Terminus, you must first run:\n\nsource ~/" . $rcfile . "\n");
+            exit;
         }
     }
     if (!$pathUpdated) {
