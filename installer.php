@@ -16,7 +16,7 @@ $rcfiles = array(                                  // Array of common .rc files 
 );
 $package = "terminus";
 $opts = getopt("", ["version::"]);
-$version = $opts['version'] ?? NULL;
+$version = isset($opts['version']) ? $opts['version'] : NULL;
 
 // Function to download Terminus executable file from GitHub to /tmp/ then move it to $installdir
 // prompts for sudo if required.
