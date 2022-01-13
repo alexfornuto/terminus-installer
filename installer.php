@@ -15,10 +15,12 @@ $rcfiles = array(                                  // Array of common .rc files 
   ".profile",
 );
 $package = "terminus";
+$opts = getopt("", ["version::"]);
+$version = $opts['version'] ?? NULL;
 
 // Function to download Terminus executable file from GitHub to /tmp/ then move it to $installdir
 // prompts for sudo if required.
-function downloadTerminus($installdir, $package)
+function downloadTerminus($installdir, $package, $version)
 {
     // $opts defines values required by the GitHub API to respond correctly. $context formats them for use.
     $opts = [
@@ -32,10 +34,17 @@ function downloadTerminus($installdir, $package)
     $context  = stream_context_create($opts);
     $releases = file_get_contents("https://api.github.com/repos/pantheon-systems/" . $package . "/releases", false, $context);
     $releases = json_decode($releases);
-    $version  = $releases[0]->tag_name;
-    $url      = $releases[0]->assets[0]->browser_download_url;
+    $release = getRelease($releases, $version);
+
+    if (!$release) {
+        echo "No release found for version " . $version . "\n";
+        exit("Download unsuccessful.\n\n");
+    }
+
+    $url = $release['url'];
+    
     // Do the needful
-    echo("\nDownloading Terminus " . $version . " from " . $url . " to /tmp \n");
+    echo("\nDownloading Terminus " . $release['version'] . " from " . $url . " to /tmp \n");
     $couldDownload = file_put_contents("/tmp/" . $package . ".phar", file_get_contents($url));
     echo("Moving to " . $installdir . "...\n");
     if(!rename("/tmp/" . $package . ".phar", $installdir . "/" . $package)){
@@ -46,6 +55,26 @@ function downloadTerminus($installdir, $package)
     // Return true if successful
     $couldMove = exec("ls " . $installdir . "/" . $package, $output, $couldMove);
     return $couldMove;
+}
+
+function getRelease($releases, $version) {
+  if ($version) {
+    foreach ($releases as $i => $release) {
+      if ($release->tag_name == $version) {
+        return [
+          'url' => $release->assets[0]->browser_download_url,
+          'version' => $release->tag_name,
+        ];
+      }
+    }
+    return NULL;
+  }
+  $version  = $releases[0]->tag_name;
+  $url = $releases[0]->assets[0]->browser_download_url;
+  return [
+    'url' => $url,
+    'version' => $version
+  ];
 }
 
 
@@ -98,7 +127,7 @@ if (!file_exists($installdir)) {
 }
 
 //Download terminus.phar
-if (downloadTerminus($installdir, $package)) {
+if (downloadTerminus($installdir, $package, $version)) {
     echo("Installed to " . $installdir . "\n\n");
 } else {
     exit("Download unsuccessful.\n\n");
